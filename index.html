@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentín 💛</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100dvh; /* 🔑 mejor que 100vh en móvil */
+    font-family: Arial, sans-serif;
+    background: url("friends-bf-fs.gif") center / cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+/* 🔥 Overlay con scroll si hace falta */
+.overlay {
+    background: rgba(0, 0, 0, 0.55);
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px; /* 🔑 más aire arriba/abajo */
+}
+
+/* 🃏 Card responsive */
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px 20px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+h1 {
+    color: #ff4d6d;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin: 10px 0;
+}
+
+p {
+    font-size: 17px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+button {
+    width: 130px;
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+#yes {
+    background: #ff4d6d;
+    color: white;
+}
+
+#no {
+    background: #ccc;
+    color: #333;
+}
+
+.message {
+    display: none;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #ff4d6d;
+}
+
+.gif {
+    display: none;
+    margin-top: 15px;
+    margin: 15px auto 0;   /* 👈 centra horizontalmente */
+    width: 100%;
+    max-width: 280px;
+    max-width: 280px;      /* 👈 opcional, queda más bonito */
+
+    border-radius: 15px;
+}
+
+/* ❤️ CONFETI */
+.heart {
+    position: fixed;
+    top: -20px;
+    font-size: 26px;
+    animation: fall linear forwards;
+    z-index: 9999;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh);
+        opacity: 0;
+    }
+}
+
+/* 📱 Ajustes SOLO móvil */
+@media (max-width: 480px) {
+    body {
+        background-position: center top; /* se ve más fondo */
+    }
+
+    .card {
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+    <div class="card">
+        <h1> Hola novia guapa 💖</h1>
+        <h2>¿Te gustaria ser mi San Valentín?</h2>
+        <h3> O me odias?</h3>
+        <p>💞 UwU 💞 UwU 💞 UwU 💞 UwU 💞</p>
+
+        <div class="buttons">
+            <button id="yes">Sí 💖</button>
+            <button id="no">No 😢</button>
+        </div>
+
+        <div class="message" id="message">
+            <h1 style="color: #0e77ef;">Aun que no estemos el sabado juntas, tenemos una cita pendiente</h1>
+            <h4 style="color: #000000;">¡No faltes, eh! 😘</h4>
+            <h2>💞 T'estime d'açi a la Lluna y tornar 💞</h2>
+        </div>
+
+        <img src="spongebob-hooray.gif" class="gif" id="celebration">
+        <img src="heart-love.gif" class="gif" id="hearts">
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const message = document.getElementById("message");
+const celebration = document.getElementById("celebration");
+const hearts = document.getElementById("hearts");
+
+let scale = 1;
+
+// ❤️ Confeti
+function lanzarCorazones() {
+    for (let i = 0; i < 200; i++) { // 🔽 menos en móvil, más fluido
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+    }
+}
+
+contador = 0;
+// 😈 Botón NO huye
+noBtn.addEventListener("click", () => {
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+
+    scale += 0.3;
+    yesBtn.style.transform = `scale(${scale})`;
+    contador++;
+    if (contador == 10) {
+        alert("¡Vamos, dale q siii! 😘");
+    }
+    if (contador == 15) {
+        alert("Nada, ahora si o si aceptas la proposición 😏");
+        noBtn.style.display = "none";
+    }
+
+});
+
+// 💖 Botón SÍ
+yesBtn.addEventListener("click", () => {
+    message.style.display = "block";
+    celebration.style.display = "block";
+    hearts.style.display = "block";
+    lanzarCorazones();
+
+    scale = 1;
+    yesBtn.style.transform = "scale(1)";
+    noBtn.style.display = "none";
+});
+</script>
+
+</body>
+</html>
